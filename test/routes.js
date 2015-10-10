@@ -36,3 +36,23 @@ exports['create route from binary function'] = function (test) {
         test.done();
     });
 };
+
+exports['create route from binary function using callback'] = function (test) {
+    var fn = routes.create(function (message, context, cb) { 
+        test.ok(context);
+        test.equal(typeof context, 'object');
+        cb(null, message + 1);
+    });
+    
+    test.ok(fn);
+    test.equal(typeof fn, 'function');
+    test.equal(fn.length, 3);
+    
+    test.async();
+    
+    fn(1, {}, function (err, result) {
+        test.equal(err, null);
+        test.equal(result, 2);
+        test.done();
+    });
+};
