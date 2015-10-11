@@ -37,6 +37,20 @@ exports['post message to route using context'] = function (test) {
     });
 }
 
+exports['post message without callback'] = function (test) {
+    test.async();
+    
+    var mproc = messi();
+    
+    mproc.route('myroute', function (message, context) {
+        test.ok(context);
+        test.equal(typeof context, 'object');
+        test.equal(message, 1);
+        test.done();
+    });
+    
+    mproc.post('myroute', 1);
+}
 
 exports['post message to route using context and callback'] = function (test) {
     test.async();
