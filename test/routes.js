@@ -56,3 +56,23 @@ exports['create route from binary function using callback'] = function (test) {
         test.done();
     });
 };
+
+exports['create route from array of functions'] = function (test) {
+    var fn = routes.create([
+        function (message) { return message + 1; },
+        function (message) { return message * 3; },
+        function (message) { return message + 5; }
+    ]);
+    
+    test.ok(fn);
+    test.equal(typeof fn, 'function');
+    test.equal(fn.length, 3);
+    
+    test.async();
+    
+    fn(1, {}, function (err, result) {
+        test.equal(err, null);
+        test.equal(result, 11);
+        test.done();
+    });
+};
