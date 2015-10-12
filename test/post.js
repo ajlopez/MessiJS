@@ -72,3 +72,26 @@ exports['post message to route using context and callback'] = function (test) {
         test.done();
     });
 }
+
+exports['post message using context'] = function (test) {
+    test.async();
+    
+    var mproc = messi();
+    
+    mproc.route('increment', [
+        function (message) { return message + 1; },
+        function (message, context, cb) {
+            if (message < 10)
+                context.post('increment', message, context.returncb);
+            else
+                cb(null, message);
+        }
+    ]);
+    
+    mproc.post('increment', 1, function (err, message) {
+        test.equal(err, null);
+        test.ok(message);
+        test.equal(message, 10);
+        test.done();
+    });
+}
