@@ -80,7 +80,7 @@ exports['create route from array of functions'] = function (test) {
 exports['return message at middle of route'] = function (test) {
     var fn = routes.create([
         function (message) { return message + 1; },
-        function (message, context, cb) { cb('done', message * 3); },
+        function (message, context, cb) { context.returncb(null, message * 3); },
         function (message) { return message + 5; }
     ]);
     
