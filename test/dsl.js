@@ -40,3 +40,27 @@ exports['create transform route using an array of objects'] = function (test) {
         test.done();
     });
 };
+
+exports['create transform route using an array of objects and condition'] = function (test) {
+    var mproc = messi();
+    
+    mproc.route("process", [
+        {
+            condition: "message % 2",
+            transform: "message + 2"
+        }
+        ,
+        {
+            transform: "message * 5"
+        }
+    ]);
+    
+    test.async();
+    
+    mproc.post("process", 2, function (err, data) {
+        test.equal(err, null);
+        test.ok(data);
+        test.equal(data, 10);
+        test.done();
+    });
+};
