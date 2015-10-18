@@ -95,3 +95,29 @@ exports['post message using context'] = function (test) {
         test.done();
     });
 }
+
+exports['post message to route defined using DSL'] = function (test) {
+    test.async();
+    
+    var mproc = messi();
+    
+    mproc.post(
+        [
+            {
+                transform: "message + 2"
+            }
+            ,
+            {
+                transform: "message * 5"
+            }
+        ], 
+        1, 
+        function (err, message) {
+            test.equal(err, null);
+            test.ok(message);
+            test.equal(message, 15);
+            test.done();
+        }
+    );
+}
+
