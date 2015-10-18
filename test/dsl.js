@@ -41,6 +41,31 @@ exports['create transform route using an array of objects'] = function (test) {
     });
 };
 
+exports['use named route in route'] = function (test) {
+    var mproc = messi();
+    
+    mproc.route("subprocess", [
+        {
+            transform: "message + 2"
+        }
+        ,
+        {
+            transform: "message * 5"
+        }
+    ]);
+    
+    mproc.route("process", { route: "subprocess" });
+    
+    test.async();
+    
+    mproc.post("process", 1, function (err, data) {
+        test.equal(err, null);
+        test.ok(data);
+        test.equal(data, 15);
+        test.done();
+    });
+};
+
 exports['create transform route using an array of objects and condition'] = function (test) {
     var mproc = messi();
     
