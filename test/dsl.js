@@ -41,6 +41,30 @@ exports['create transform route using an array of objects'] = function (test) {
     });
 };
 
+exports['create transform route using retval'] = function (test) {
+    var mproc = messi();
+    
+    mproc.route("process", [
+        {
+            transform: "message + 2",
+            retval: true
+        }
+        ,
+        {
+            transform: "message * 5"
+        }
+    ]);
+    
+    test.async();
+    
+    mproc.post("process", 3, function (err, data) {
+        test.equal(err, null);
+        test.ok(data);
+        test.equal(data, 5);
+        test.done();
+    });
+};
+
 exports['use named route in route'] = function (test) {
     var mproc = messi();
     
