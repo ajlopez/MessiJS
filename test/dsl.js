@@ -64,3 +64,20 @@ exports['create transform route using an array of objects and condition'] = func
         test.done();
     });
 };
+
+exports['create process route using an object'] = function (test) {
+    var mproc = messi();
+    
+    mproc.route("process", {
+        process: "message.data = 1;"
+    });
+    
+    test.async();
+    
+    mproc.post("process", {}, function (err, data) {
+        test.equal(err, null);
+        test.ok(data);
+        test.equal(data.data, 1);
+        test.done();
+    });
+};
